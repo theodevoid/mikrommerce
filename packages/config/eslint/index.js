@@ -18,10 +18,6 @@ const config = {
         caughtErrorsIgnorePattern: "^_",
       },
     ],
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      { prefer: "type-imports", fixStyle: "inline-type-imports" },
-    ],
   },
   ignorePatterns: ["**/*.config.js", "**/*.config.cjs", "packages/config/**"],
   reportUnusedDisableDirectives: true,

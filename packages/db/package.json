@@ -1,5 +1,5 @@
 {
-  "name": "@acme/db",
+  "name": "@mikrommerce/db",
   "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
@@ -17,6 +17,6 @@
   "devDependencies": {
     "dotenv-cli": "^7.1.0",
     "prisma": "^4.12.0",
-    "typescript": "^5.0.4"
+    "typescript": "4.9.5"
   }
 }

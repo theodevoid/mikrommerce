@@ -1,18 +1,27 @@
-import "../styles/globals.css";
-import type { AppType } from "next/app";
-import type { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { useState } from "react";
+import { AppProps } from "next/app";
+import { ChakraProvider } from "@chakra-ui/react";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Session, SessionContextProvider } from "@supabase/auth-helpers-react";
 
 import { api } from "~/utils/api";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp = ({
   Component,
-  pageProps: { session, ...pageProps },
-}) => {
+  pageProps,
+}: AppProps<{ initialSession: Session }>) => {
+  // Create a new supabase browser client on every first render.
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </SessionContextProvider>
   );
 };
 

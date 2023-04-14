@@ -1,3 +1,2 @@
-export { authOptions } from "./src/auth-options";
-export { getServerSession } from "./src/get-session";
-export type { Session } from "next-auth";
+export { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+export { type Session } from "@supabase/supabase-js";
