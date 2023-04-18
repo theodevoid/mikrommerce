@@ -2,7 +2,7 @@
   "name": "mikrommerce",
   "private": true,
   "engines": {
-    "node": ">=v18.16.0"
+    "node": ">=v18.13.0"
   },
   "packageManager": "pnpm@8.1.1",
   "scripts": {
