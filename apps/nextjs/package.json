@@ -10,7 +10,8 @@
     "lint:fix": "pnpm lint --fix",
     "start": "pnpm with-env next start",
     "type-check": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env --",
+    "postinstall": "pnpm db:push"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
