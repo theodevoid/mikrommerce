@@ -11,7 +11,7 @@
     "start": "pnpm with-env next start",
     "type-check": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --",
-    "postinstall": "pnpm db:push"
+    "postinstall": "pnpm run db:push"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
