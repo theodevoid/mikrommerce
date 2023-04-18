@@ -11,7 +11,7 @@ const MyApp = ({
   Component,
   pageProps,
 }: AppProps<{ initialSession: Session }>) => {
-  // Create a new supabase browser client on every first render.
+  // Create a new supabase browser client on every first render. test
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
