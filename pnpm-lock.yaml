@@ -185,6 +185,9 @@ importers:
       framer-motion:
         specifier: ^10.12.2
         version: 10.12.2(react-dom@18.2.0)(react@18.2.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       next:
         specifier: ^13.3.0
         version: 13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
@@ -203,6 +206,9 @@ importers:
       superjson:
         specifier: 1.9.1
         version: 1.9.1
+      use-debounce:
+        specifier: ^9.0.4
+        version: 9.0.4(react@18.2.0)
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -11836,6 +11842,15 @@ packages:
       '@types/react': 18.0.33
       react: 18.2.0
       tslib: 2.5.0
+    dev: false
+
+  /use-debounce@9.0.4(react@18.2.0):
+    resolution: {integrity: sha512-6X8H/mikbrt0XE8e+JXRtZ8yYVvKkdYRfmIhWZYsP8rcNs9hk3APV8Ua2mFkKRLcJKVdnX2/Vwrmg2GWKUQEaQ==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /use-latest-callback@0.1.5:
