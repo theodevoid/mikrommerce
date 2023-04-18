@@ -11,8 +11,32 @@ datasource db {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    image         String?
+    id    String  @id @default(cuid())
+    name  String?
+    email String? @unique
+    image String?
+}
+
+model Product {
+    id                   String                 @id @default(cuid())
+    name                 String
+    price                Int
+    rating               Int
+    image                String
+    CategoriesOnProducts CategoriesOnProducts[]
+}
+
+model Category {
+    id                   String                 @id @default(cuid())
+    name                 String
+    CategoriesOnProducts CategoriesOnProducts[]
+}
+
+model CategoriesOnProducts {
+    product    Product  @relation(fields: [productId], references: [id])
+    productId  String
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId String
+
+    @@id([productId, categoryId])
 }

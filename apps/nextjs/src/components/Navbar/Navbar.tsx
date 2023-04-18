@@ -39,19 +39,21 @@ const Navbar = () => {
     <Box h="16" w="100%" backgroundColor="blackAlpha.500" px="4">
       <HStack justifyContent="space-between" alignItems="center" h="100%">
         <Link _hover={{ fontStyle: "none" }} as={NextLink} href="/">
-          <Text>Mikrommerce</Text>
+          <Text fontWeight="medium">Mikrommerce</Text>
         </Link>
         {user ? (
           <HStack>
             <CartButton onClick={onNavigateToCart} itemCount={2} />
-            <Menu>
-              <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
-              <MenuList>
-                <MenuItem onClick={logout} color="red.200">
-                  Logout
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <Box>
+              <Menu strategy="fixed">
+                <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
+                <MenuList>
+                  <MenuItem onClick={logout} color="red.200">
+                    Logout
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
           </HStack>
         ) : (
           <Button onClick={login}>Login</Button>
