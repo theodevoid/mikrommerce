@@ -13,12 +13,12 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@mikrommerce/api": "^0.1.0",
-    "@mikrommerce/auth": "^0.1.0",
-    "@mikrommerce/db": "^0.1.0",
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mikrommerce/api": "^0.1.0",
+    "@mikrommerce/auth": "^0.1.0",
+    "@mikrommerce/db": "^0.1.0",
     "@supabase/auth-helpers-nextjs": "^0.5.7",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/auth-ui-react": "^0.3.5",
@@ -34,6 +34,7 @@
     "next-auth": "^4.22.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
     "superjson": "1.9.1",
     "zod": "^3.21.4"
   },
