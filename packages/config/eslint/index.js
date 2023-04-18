@@ -18,6 +18,7 @@ const config = {
         caughtErrorsIgnorePattern: "^_",
       },
     ],
+    "@typescript-eslint/no-misused-promises": "off",
   },
   ignorePatterns: ["**/*.config.js", "**/*.config.cjs", "packages/config/**"],
   reportUnusedDisableDirectives: true,

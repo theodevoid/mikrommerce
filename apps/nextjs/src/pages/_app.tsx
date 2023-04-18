@@ -5,6 +5,7 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Session, SessionContextProvider } from "@supabase/auth-helpers-react";
 
 import { api } from "~/utils/api";
+import Navbar from "~/components/Navbar/Navbar";
 
 const MyApp = ({
   Component,
@@ -19,6 +20,7 @@ const MyApp = ({
       initialSession={pageProps.initialSession}
     >
       <ChakraProvider>
+        <Navbar />
         <Component {...pageProps} />
       </ChakraProvider>
     </SessionContextProvider>
