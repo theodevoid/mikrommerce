@@ -47,9 +47,10 @@ export const ProductList = () => {
   const router = useRouter();
 
   const renderProducts = () => {
-    return products?.results.map(({ id, image, name, price, rating }) => {
+    return products?.results.map(({ id, image, name, price, rating, slug }) => {
       return (
         <ProductCard
+          slug={slug}
           key={id}
           image={image}
           productName={name}
