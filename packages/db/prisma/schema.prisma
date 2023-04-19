@@ -23,6 +23,8 @@ model Product {
     price                Int
     rating               Int
     image                String
+    slug                 String                 @unique
+    description          String                 @default("")
     CategoriesOnProducts CategoriesOnProducts[]
 }
 
