@@ -1,6 +1,19 @@
 import NextLink from "next/link";
-import { Box, HStack, Icon, Image, Link, Text } from "@chakra-ui/react";
-import { IoMdStar } from "react-icons/io";
+import {
+  AspectRatio,
+  Button,
+  Image,
+  Link,
+  Stack,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+import { ProductVariant } from "@mikrommerce/db";
+
+import { toRupiah } from "~/utils/format";
+import { AddToCartModal } from "./AddToCartModal";
 
 interface ProductCardProps {
   onClick?: () => void;
@@ -9,43 +22,63 @@ interface ProductCardProps {
   rating?: number;
   image: string;
   slug: string;
+  productVariants: ProductVariant[];
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   image,
-  onClick,
   price,
   productName,
-  rating,
   slug,
+  productVariants,
 }) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
-    <Link
-      as={NextLink}
-      href={`/product/${slug}`}
-      _hover={{ fontStyle: "none" }}
-    >
-      <Box
-        onClick={onClick}
-        _hover={{ cursor: "pointer" }}
-        bg="gray.900"
-        borderRadius="8px"
-        overflow="hidden"
-      >
-        <Image h="60" w="100%" objectFit="cover" alt="product" src={image} />
-        <Box p="3">
-          <Text>{productName}</Text>
-          <Text fontSize="lg" fontWeight="medium">
-            Rp {price.toLocaleString("id-ID")}
+    <Stack spacing={{ base: "4", md: "5" }}>
+      <AddToCartModal
+        isOpen={isOpen}
+        onClose={onClose}
+        productVariants={productVariants}
+        productName={productName}
+      />
+      <AspectRatio ratio={4 / 3}>
+        <Image
+          src={image}
+          alt={productName}
+          draggable="false"
+          borderRadius={{ base: "md", md: "xl" }}
+        />
+      </AspectRatio>
+      <Stack>
+        <Stack spacing="1">
+          <Text
+            fontWeight="medium"
+            color={useColorModeValue("blackAlpha.900", "whiteAlpha.900")}
+          >
+            {productName}
           </Text>
-          {rating && (
-            <HStack spacing={1} mt="2">
-              <Icon as={IoMdStar} color="gold" />
-              <Text>{rating}</Text>
-            </HStack>
-          )}
-        </Box>
-      </Box>
-    </Link>
+          <Text
+            fontWeight="medium"
+            color={useColorModeValue("blackAlpha.900", "whiteAlpha.900")}
+          >
+            {toRupiah(price)}
+          </Text>
+        </Stack>
+      </Stack>
+      <Stack align="center">
+        <Button colorScheme="blue" width="full" onClick={onOpen}>
+          Add to cart
+        </Button>
+        <Link
+          as={NextLink}
+          href={`/product/${slug}`}
+          textDecoration="underline"
+          textUnderlineOffset="2px"
+        >
+          View Details
+        </Link>
+      </Stack>
+    </Stack>
   );
 };

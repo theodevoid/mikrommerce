@@ -46,6 +46,7 @@ export const getProducts = publicProcedure
             category: true,
           },
         },
+        ProductVariant: true,
       },
     });
 

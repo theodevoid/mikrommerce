@@ -14,7 +14,8 @@ const CartButton: React.FC<CartButtonProps> = ({ onClick, itemCount }) => {
         aria-label="cart"
         icon={<Icon as={IoMdCart} />}
       />
-      {itemCount && (
+      {/* Contoh kenapa lebih baik pake ternary atau convert `itemCount` jadi boolean dulu */}
+      {Boolean(itemCount) && (
         <Box
           top={-1}
           right={-1}
