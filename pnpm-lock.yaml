@@ -149,9 +149,6 @@ importers:
       '@fontsource/inter':
         specifier: ^4.5.15
         version: 4.5.15
-      '@fontsource/poppins':
-        specifier: ^4.5.10
-        version: 4.5.10
       '@mikrommerce/api':
         specifier: ^0.1.0
         version: link:../../packages/api
@@ -3292,10 +3289,6 @@ packages:
 
   /@fontsource/inter@4.5.15:
     resolution: {integrity: sha512-FzleM9AxZQK2nqsTDtBiY0PMEVWvnKnuu2i09+p6DHvrHsuucoV2j0tmw+kAT3L4hvsLdAIDv6MdGehsPIdT+Q==}
-    dev: false
-
-  /@fontsource/poppins@4.5.10:
-    resolution: {integrity: sha512-oYZVHsnlwV3VWM1SE/m6SUxVh0QLk5+2wB+lBiXcI7N/0KVQWmV9YykaPqfJHBLvmdya+MAOnv+BQHeLU1vOOw==}
     dev: false
 
   /@gar/promisify@1.1.3:
