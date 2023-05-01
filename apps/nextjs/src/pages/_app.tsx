@@ -6,6 +6,9 @@ import { Session, SessionContextProvider } from "@supabase/auth-helpers-react";
 
 import { api } from "~/utils/api";
 import Navbar from "~/components/Navbar/Navbar";
+import theme from "~/theme";
+import "@fontsource/inter";
+import "@fontsource/barlow";
 
 const MyApp = ({
   Component,
@@ -19,7 +22,7 @@ const MyApp = ({
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Navbar />
         <Component {...pageProps} />
       </ChakraProvider>

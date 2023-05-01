@@ -83,4 +83,5 @@ model Cart {
     deletedAt        DateTime?
     checkoutAt       DateTime?
     productVariantId String
+    createdAt        DateTime       @default(now())
 }

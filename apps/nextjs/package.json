@@ -17,6 +17,8 @@
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fontsource/barlow": "^4.5.9",
+    "@fontsource/inter": "^4.5.15",
     "@mikrommerce/api": "^0.1.0",
     "@mikrommerce/auth": "^0.1.0",
     "@mikrommerce/db": "^0.1.0",
