@@ -47,18 +47,21 @@ export const ProductList = () => {
   const router = useRouter();
 
   const renderProducts = () => {
-    return products?.results.map(({ id, image, name, price, rating, slug }) => {
-      return (
-        <ProductCard
-          slug={slug}
-          key={id}
-          image={image}
-          productName={name}
-          price={price}
-          rating={rating}
-        />
-      );
-    });
+    return products?.results.map(
+      ({ id, image, name, price, rating, slug, ProductVariant }) => {
+        return (
+          <ProductCard
+            slug={slug}
+            key={id}
+            image={image[0] || ""}
+            productName={name}
+            price={price}
+            rating={rating}
+            productVariants={ProductVariant}
+          />
+        );
+      },
+    );
   };
 
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -66,13 +69,24 @@ export const ProductList = () => {
   };
 
   useEffect(() => {
-    void router.push({
-      query: {
-        page,
-      },
-    });
+    if (router.isReady) {
+      void router.push({
+        query: {
+          page,
+        },
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  // wait until router is ready, then set `page` state to the page
+  useEffect(() => {
+    if (router.isReady) {
+      setPage(
+        parseInt(router.query.page ? (router.query.page as string) : "1"),
+      );
+    }
+  }, [router.isReady, router.query.page]);
 
   return (
     <Box pb="8">
@@ -82,7 +96,7 @@ export const ProductList = () => {
           <Icon as={IoSearch} />
         </InputRightElement>
       </InputGroup>
-      {isLoading || isRefetching ? (
+      {(isLoading || isRefetching) && !products ? (
         <HStack justifyContent="center">
           <Spinner />
         </HStack>

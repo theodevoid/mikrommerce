@@ -25,7 +25,7 @@ interface ProductDetailProps {
   productName: string;
   price: number;
   rating?: number;
-  image: string;
+  image: string[];
   slug: string;
   description: string;
   categories: string[];
@@ -59,7 +59,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
               objectFit="contain"
               w="100%"
               h="96"
-              src={image}
+              src={image[0]}
             />
           </Box>
           <Container mt="2">

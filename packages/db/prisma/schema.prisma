@@ -15,6 +15,7 @@ model User {
     name  String?
     email String? @unique
     image String?
+    Cart  Cart[]
 }
 
 model Product {
@@ -22,10 +23,40 @@ model Product {
     name                 String
     price                Int
     rating               Int
-    image                String
+    image                String[]
     slug                 String                 @unique
     description          String                 @default("")
     CategoriesOnProducts CategoriesOnProducts[]
+    ProductVariant       ProductVariant[]
+}
+
+// when a product is created, a default variant will also be created
+// with duplicate attributes from its master product
+model ProductVariant {
+    id        String      @id @default(cuid())
+    product   Product     @relation(fields: [productId], references: [id])
+    sku       String
+    name      String
+    price     Int
+    image     String
+    label     String // for variant picker buttons
+    Cart      Cart[]
+    productId String
+    Inventory Inventory[]
+}
+
+enum InventoryStatus {
+    AVAILABLE // available to be sold 
+    ON_ORDER // in the process of an order
+    RESERVED // non-active stock (not on order nor available for sale)
+}
+
+model Inventory {
+    id               String          @id @default(cuid())
+    item             ProductVariant  @relation(fields: [productVariantId], references: [id])
+    productVariantId String
+    quantity         Int
+    status           InventoryStatus
 }
 
 model Category {
@@ -41,4 +72,15 @@ model CategoriesOnProducts {
     categoryId String
 
     @@id([productId, categoryId])
+}
+
+model Cart {
+    id               String         @id @default(cuid())
+    item             ProductVariant @relation(fields: [productVariantId], references: [id])
+    user             User           @relation(fields: [userId], references: [id])
+    userId           String
+    quantity         Int
+    deletedAt        DateTime?
+    checkoutAt       DateTime?
+    productVariantId String
 }

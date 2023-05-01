@@ -15,11 +15,16 @@ import {
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { IoMdMenu } from "react-icons/io";
 
+import { api } from "~/utils/api";
 import CartButton from "./CartButton";
 
 const Navbar = () => {
   const supabase = useSupabaseClient();
   const user = useUser();
+
+  const { data: cart } = api.cart.getCart.useQuery(undefined, {
+    staleTime: 1000 * 60,
+  });
 
   const login = async () => {
     await supabase.auth.signInWithOAuth({
@@ -43,7 +48,10 @@ const Navbar = () => {
         </Link>
         {user ? (
           <HStack>
-            <CartButton onClick={onNavigateToCart} itemCount={2} />
+            <CartButton
+              onClick={onNavigateToCart}
+              itemCount={cart?.length || 0}
+            />
             <Box>
               <Menu strategy="fixed">
                 <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
