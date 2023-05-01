@@ -35,32 +35,7 @@ export const addToCart = protectedProcedure
         });
       }
 
-      // 2. Decrement AVAILABLE product stock and increment ON_ORDER stock
-      await tx.inventory.updateMany({
-        where: {
-          productVariantId,
-          status: InventoryStatus.AVAILABLE,
-        },
-        data: {
-          quantity: {
-            decrement: quantity,
-          },
-        },
-      });
-
-      await tx.inventory.updateMany({
-        where: {
-          productVariantId,
-          status: InventoryStatus.ON_ORDER,
-        },
-        data: {
-          quantity: {
-            increment: quantity,
-          },
-        },
-      });
-
-      // 3. Check if product is in cart
+      // 2. Check if product is in cart
       const cartByProductId = await tx.cart.findFirst({
         where: {
           productVariantId,
@@ -70,7 +45,7 @@ export const addToCart = protectedProcedure
         },
       });
 
-      // 4. If product is in cart, increment quantity
+      // 3. If product is in cart, increment quantity
       if (cartByProductId) {
         await tx.cart.update({
           data: {
@@ -83,7 +58,7 @@ export const addToCart = protectedProcedure
           },
         });
       } else {
-        // 5. Else, create new cart
+        // 4. Else, create new cart
         await tx.cart.create({
           data: {
             productVariantId,

@@ -96,7 +96,7 @@ export const ProductList = () => {
           <Icon as={IoSearch} />
         </InputRightElement>
       </InputGroup>
-      {isLoading || isRefetching ? (
+      {(isLoading || isRefetching) && !products ? (
         <HStack justifyContent="center">
           <Spinner />
         </HStack>
