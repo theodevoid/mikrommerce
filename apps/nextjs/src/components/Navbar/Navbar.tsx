@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   HStack,
+  Heading,
   Icon,
   IconButton,
   Link,
@@ -10,7 +11,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text,
 } from "@chakra-ui/react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { IoMdMenu } from "react-icons/io";
@@ -36,22 +36,17 @@ const Navbar = () => {
     await supabase.auth.signOut();
   };
 
-  const onNavigateToCart = () => {
-    console.log("to cart");
-  };
-
   return (
     <Box h="16" w="100%" backgroundColor="blackAlpha.500" px="4">
       <HStack justifyContent="space-between" alignItems="center" h="100%">
         <Link _hover={{ fontStyle: "none" }} as={NextLink} href="/">
-          <Text fontWeight="medium">Mikrommerce</Text>
+          <Heading size="md" fontWeight="semibold">
+            Mikrommerce
+          </Heading>
         </Link>
         {user ? (
           <HStack>
-            <CartButton
-              onClick={onNavigateToCart}
-              itemCount={cart?.length || 0}
-            />
+            <CartButton itemCount={cart?.length || 0} />
             <Box>
               <Menu strategy="fixed">
                 <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />

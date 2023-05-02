@@ -10,7 +10,19 @@ export const getCart = protectedProcedure.query(async ({ ctx }) => {
       checkoutAt: null,
     },
     include: {
-      item: true,
+      item: {
+        include: {
+          product: true,
+          Inventory: {
+            where: {
+              status: "AVAILABLE",
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "asc",
     },
   });
 

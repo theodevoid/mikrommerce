@@ -143,6 +143,12 @@ importers:
       '@emotion/styled':
         specifier: ^11.10.6
         version: 11.10.6(@emotion/react@11.10.6)(@types/react@18.0.33)(react@18.2.0)
+      '@fontsource/barlow':
+        specifier: ^4.5.9
+        version: 4.5.9
+      '@fontsource/inter':
+        specifier: ^4.5.15
+        version: 4.5.15
       '@mikrommerce/api':
         specifier: ^0.1.0
         version: link:../../packages/api
@@ -3275,6 +3281,14 @@ packages:
       chalk: 4.1.2
       find-up: 5.0.0
       js-yaml: 4.1.0
+    dev: false
+
+  /@fontsource/barlow@4.5.9:
+    resolution: {integrity: sha512-Nzg7bpw6raZtNdHwvLIt6ue/Gas/tpsNyf7zrRvVdV38iOrtOip2aabO3lexEyiYkKjKrlqAjEyAtTrC2XfkRg==}
+    dev: false
+
+  /@fontsource/inter@4.5.15:
+    resolution: {integrity: sha512-FzleM9AxZQK2nqsTDtBiY0PMEVWvnKnuu2i09+p6DHvrHsuucoV2j0tmw+kAT3L4hvsLdAIDv6MdGehsPIdT+Q==}
     dev: false
 
   /@gar/promisify@1.1.3:
