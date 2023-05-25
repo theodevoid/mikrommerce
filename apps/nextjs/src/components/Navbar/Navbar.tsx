@@ -51,6 +51,15 @@ const Navbar = () => {
               <Menu strategy="fixed">
                 <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
                 <MenuList>
+                  <MenuItem>
+                    <Link
+                      _hover={{ fontStyle: "none" }}
+                      as={NextLink}
+                      href="/profile"
+                    >
+                      Profile
+                    </Link>
+                  </MenuItem>
                   <MenuItem onClick={logout} color="red.200">
                     Logout
                   </MenuItem>
