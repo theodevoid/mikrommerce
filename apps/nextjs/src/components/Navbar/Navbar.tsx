@@ -1,3 +1,4 @@
+import React from "react";
 import NextLink from "next/link";
 import {
   Box,
@@ -11,8 +12,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { IconMoonFilled, IconSunFilled } from "@tabler/icons-react";
 import { IoMdMenu } from "react-icons/io";
 
 import { api } from "~/utils/api";
@@ -21,6 +25,9 @@ import CartButton from "./CartButton";
 const Navbar = () => {
   const supabase = useSupabaseClient();
   const user = useUser();
+  const { toggleColorMode } = useColorMode();
+
+  const colorModeIcon = useColorModeValue(IconSunFilled, IconMoonFilled);
 
   const { data: cart } = api.cart.getCart.useQuery(undefined, {
     staleTime: 1000 * 60,
@@ -39,13 +46,20 @@ const Navbar = () => {
   return (
     <Box h="16" w="100%" backgroundColor="blackAlpha.500" px="4">
       <HStack justifyContent="space-between" alignItems="center" h="100%">
-        <Link _hover={{ fontStyle: "none" }} as={NextLink} href="/">
-          <Heading size="md" fontWeight="semibold">
-            Mikrommerce
-          </Heading>
-        </Link>
+        <HStack>
+          <Link _hover={{ fontStyle: "none" }} as={NextLink} href="/">
+            <Heading size="md" fontWeight="semibold">
+              Mikrommerce
+            </Heading>
+          </Link>
+        </HStack>
         {user ? (
           <HStack>
+            <IconButton
+              onClick={toggleColorMode}
+              aria-label="toggle-mode"
+              icon={<Icon as={colorModeIcon} />}
+            />
             <CartButton itemCount={cart?.length || 0} />
             <Box>
               <Menu strategy="fixed">
