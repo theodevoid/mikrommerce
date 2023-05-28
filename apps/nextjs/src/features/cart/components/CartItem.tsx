@@ -53,8 +53,8 @@ export const CartItem: React.FC<CardItemProps> = ({
 
   const [currentQuantity, setCurrentQuantity] = useState<number>(quantity);
   const [quantityInputError, setQuantityInputError] = useState<string>("");
-
   const [debouncedQuantity] = useDebounce(currentQuantity, 1000);
+
   const toast = useToast();
   const queryClient = useQueryClient();
   const apiUtils = api.useContext();
