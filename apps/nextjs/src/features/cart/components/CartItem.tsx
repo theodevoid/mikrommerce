@@ -23,7 +23,6 @@ import { useDebounce } from "use-debounce";
 import { api } from "~/utils/api";
 import { toRupiah } from "~/utils/format";
 import { serializeAddToCartError } from "../utils/serializeAddToCartError";
-import { z } from "zod";
 
 interface CardItemProps {
   productImage: string;

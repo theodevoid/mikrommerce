@@ -8,7 +8,7 @@ export const ProfileLayout: React.FC<React.PropsWithChildren> = ({
 
   return (
     <Container>
-      <Flex alignItems="center" my="8">
+      <Flex alignItems="center" mb="8">
         <Avatar size="xl" src={user?.user_metadata?.avatar_url as string} />
         <Stack ml="4" spacing={0}>
           <Text fontSize="2xl" fontWeight="bold">

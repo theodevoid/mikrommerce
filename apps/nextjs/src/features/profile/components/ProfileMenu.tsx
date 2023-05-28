@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Box, Icon, SimpleGrid } from "@chakra-ui/react";
 import { IconMapPin } from "@tabler/icons-react";
 
