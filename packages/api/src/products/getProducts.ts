@@ -33,6 +33,7 @@ export const getProducts = publicProcedure
     if (name) {
       whereClause.name = {
         contains: name,
+        mode: "insensitive",
       };
     }
 
