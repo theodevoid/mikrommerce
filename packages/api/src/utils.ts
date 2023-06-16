@@ -8,10 +8,10 @@ export function serializePhoneNumber(phoneNumber: string) {
     phoneNumber = phoneNumber.substring(1);
   } else if (phoneNumber.startsWith("0")) {
     // Replace the leading '0' with '+62'
-    phoneNumber = "+62" + phoneNumber.substring(1);
+    phoneNumber = "62" + phoneNumber.substring(1);
   } else if (phoneNumber.startsWith("8")) {
     // Add '+62' as prefix for local mobile numbers
-    phoneNumber = "+62" + phoneNumber;
+    phoneNumber = "62" + phoneNumber;
   }
 
   // Return the serialized phone number

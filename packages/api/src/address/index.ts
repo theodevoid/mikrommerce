@@ -1,14 +1,14 @@
 import { createTRPCRouter } from "../trpc";
-import { createAddress } from "./createAddress";
 import { deleteAddress } from "./deleteAddress";
-import { getCities } from "./getCities";
 import { getProvinces } from "./getProvinces";
+import { getRegencies } from "./getRegencies";
 import { getUserAddresses } from "./getUserAddresses";
+import { upsertAddress } from "./upsertAddress";
 
 export const addressRouter = createTRPCRouter({
-  getCities,
   getProvinces,
-  createAddress,
+  getRegencies,
+  upsertAddress,
   getUserAddresses,
   deleteAddress,
 });

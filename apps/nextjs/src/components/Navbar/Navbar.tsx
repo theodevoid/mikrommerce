@@ -53,37 +53,38 @@ const Navbar = () => {
             </Heading>
           </Link>
         </HStack>
-        {user ? (
-          <HStack>
-            <IconButton
-              onClick={toggleColorMode}
-              aria-label="toggle-mode"
-              icon={<Icon as={colorModeIcon} />}
-            />
-            <CartButton itemCount={cart?.length || 0} />
-            <Box>
-              <Menu strategy="fixed">
-                <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
-                <MenuList>
-                  <MenuItem>
+
+        <HStack>
+          <IconButton
+            onClick={toggleColorMode}
+            aria-label="toggle-mode"
+            icon={<Icon as={colorModeIcon} />}
+          />
+          {user ? (
+            <>
+              <CartButton itemCount={cart?.length || 0} />
+              <Box>
+                <Menu strategy="fixed">
+                  <MenuButton as={IconButton} icon={<Icon as={IoMdMenu} />} />
+                  <MenuList>
                     <Link
                       _hover={{ fontStyle: "none" }}
                       as={NextLink}
                       href="/profile"
                     >
-                      Profile
+                      <MenuItem>Profile</MenuItem>
                     </Link>
-                  </MenuItem>
-                  <MenuItem onClick={logout} color="red.200">
-                    Logout
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Box>
-          </HStack>
-        ) : (
-          <Button onClick={login}>Login</Button>
-        )}
+                    <MenuItem onClick={logout} color="red.200">
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            <Button onClick={login}>Login</Button>
+          )}
+        </HStack>
       </HStack>
     </Box>
   );
