@@ -7,13 +7,6 @@ export const getUserAddresses = protectedProcedure.query(async ({ ctx }) => {
     where: {
       userId: session.user.id,
     },
-    include: {
-      city: {
-        include: {
-          province: true,
-        },
-      },
-    },
   });
 
   return addresses;

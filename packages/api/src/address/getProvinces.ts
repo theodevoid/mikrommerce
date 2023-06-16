@@ -1,36 +1,26 @@
 import { z } from "zod";
 
-import { Prisma } from "@mikrommerce/db";
-
+import { PageableResponse, Province, axiosWN } from "../lib/wilayah-nusantara";
 import { protectedProcedure } from "../trpc";
 
 export const getProvinces = protectedProcedure
   .input(
     z.object({
       provinceName: z.string().optional(),
-      provinceId: z.string().optional(),
+      provinceCode: z.string().optional(),
     }),
   )
-  .query(async ({ ctx, input }) => {
-    const { prisma } = ctx;
-    const { provinceName, provinceId } = input;
+  .query(async ({ input }) => {
+    const { provinceName } = input;
 
-    const whereClause: Prisma.ProvinceWhereInput = {};
+    const { data } = await axiosWN.get<PageableResponse<Province>>(
+      "/provinsi",
+      {
+        params: {
+          name: provinceName,
+        },
+      },
+    );
 
-    if (provinceId) {
-      whereClause.id = provinceId;
-    }
-
-    if (provinceName) {
-      whereClause.province = {
-        contains: provinceName,
-        mode: "insensitive",
-      };
-    }
-
-    const cities = await prisma.province.findMany({
-      where: whereClause,
-    });
-
-    return cities;
+    return data;
   });

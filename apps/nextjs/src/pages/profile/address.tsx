@@ -18,7 +18,10 @@ import { TRPCError } from "@trpc/server";
 
 import { api } from "~/utils/api";
 import { AddressList, CreateAddressForm } from "~/features/address/components";
-import { AddressForm } from "~/features/address/schemas/createAddressSchema";
+import {
+  AddressForm,
+  CreateAddressFormContext,
+} from "~/features/address/forms/create-address";
 import { ProfileLayout } from "~/features/profile/components";
 
 const Address: NextPage = () => {
@@ -26,12 +29,13 @@ const Address: NextPage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
 
-  const { mutateAsync: createAddress, isLoading } =
-    api.address.createAddress.useMutation();
+  const { mutateAsync: upsertAddress, isLoading } =
+    api.address.upsertAddress.useMutation();
 
   const handleSubmit = async (values: AddressForm) => {
+    console.log("🚀 ~ file: address.tsx:36 ~ handleSubmit ~ values:", values);
     try {
-      await createAddress(values);
+      await upsertAddress(values);
       await apiContext.address.getUserAddresses.invalidate();
       onClose();
       toast({
@@ -65,7 +69,12 @@ const Address: NextPage = () => {
         <ModalContent>
           <ModalHeader>Tambah Alamat</ModalHeader>
           <ModalBody>
-            <CreateAddressForm onSubmit={handleSubmit} isLoading={isLoading} />
+            <CreateAddressFormContext>
+              <CreateAddressForm
+                onSubmit={handleSubmit}
+                isLoading={isLoading}
+              />
+            </CreateAddressFormContext>
           </ModalBody>
           <ModalFooter />
         </ModalContent>

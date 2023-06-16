@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 import { api } from "~/utils/api";
+import { CreateAddressFormContext } from "../forms/create-address";
 import { AddressListItem } from "./AddressListItem";
 
 export const AddressList = () => {
@@ -18,23 +19,21 @@ export const AddressList = () => {
 
   if (data?.length) {
     return (
-      <>
+      <CreateAddressFormContext>
         {data.map((address) => {
           return (
             <AddressListItem
-              city={address.city.cityName}
               detail={address.detail}
               id={address.id}
               label={address.label}
               mapsUrl={address.googleMapsUrl}
               phone={address.phoneNumber}
-              postalCode={address.city.postalCode}
-              province={address.city.province.province}
               key={address.id}
+              recipientName={address.recipientName}
             />
           );
         })}
-      </>
+      </CreateAddressFormContext>
     );
   }
 

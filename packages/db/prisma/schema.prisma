@@ -92,26 +92,8 @@ model Address {
     user          User   @relation(fields: [userId], references: [id])
     userId        String
     label         String
-    city          City   @relation(fields: [cityId], references: [id])
-    cityId        String
     detail        String
     googleMapsUrl String
     phoneNumber   String
     recipientName String
-}
-
-model Province {
-    id       String @id
-    province String
-    City     City[]
-}
-
-model City {
-    id         String    @id
-    cityName   String
-    province   Province  @relation(fields: [provinceId], references: [id])
-    provinceId String
-    type       String
-    postalCode String
-    Address    Address[]
 }

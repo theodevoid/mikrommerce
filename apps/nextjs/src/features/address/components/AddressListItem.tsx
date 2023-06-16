@@ -1,12 +1,5 @@
-import { useRef } from "react";
 import NextLink from "next/link";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Card,
@@ -18,18 +11,20 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { TRPCError } from "@trpc/server";
+import { useFormContext } from "react-hook-form";
 
 import { api } from "~/utils/api";
+import { AddressForm } from "../forms/create-address";
+import { DeleteConfirmationDialog } from "./DeleteConfirmationDialog";
+import { EditAddressModal } from "./EditAddressModal";
 
 interface AddressListItemProps {
   label: string;
   phone: string;
   detail: string;
-  city: string;
-  province: string;
-  postalCode: string;
   mapsUrl: string;
   id: string;
+  recipientName: string;
 }
 
 export const AddressListItem: React.FC<AddressListItemProps> = ({
@@ -38,23 +33,35 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
   label,
   mapsUrl,
   phone,
-  city,
-  postalCode,
-  province,
+  recipientName,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef(null);
+  const {
+    isOpen: deleteDialogIsOpen,
+    onOpen: onOpenDeleteDialog,
+    onClose: onCloseDeleteDialog,
+  } = useDisclosure();
+  const {
+    isOpen: editModalIsOpen,
+    onOpen: onOpenEditModal,
+    onClose: onCloseEditModal,
+  } = useDisclosure();
+
   const toast = useToast();
+
   const apiContext = api.useContext();
 
   const { mutateAsync: deleteAddress } =
     api.address.deleteAddress.useMutation();
+  const { mutateAsync: upsertAddress, isLoading: upsertAddressIsLoading } =
+    api.address.upsertAddress.useMutation();
+
+  const { setValue } = useFormContext<AddressForm>();
 
   const handleDeleteSubmit = async () => {
     try {
       await deleteAddress({ addressId: id });
       await apiContext.address.getUserAddresses.invalidate();
-      onClose();
+      onCloseDeleteDialog();
     } catch (error) {
       toast({
         colorScheme: "red",
@@ -64,44 +71,58 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
     }
   };
 
+  const handleEditSubmit = async (values: AddressForm) => {
+    console.log(
+      "🚀 ~ file: AddressListItem.tsx:75 ~ handleEditSubmit ~ values:",
+      values,
+    );
+    try {
+      await upsertAddress(values);
+      await apiContext.address.getUserAddresses.invalidate();
+      onCloseEditModal();
+      toast({
+        title: "Berhasil",
+        description: "Alamatmu berhasil tersimpan",
+      });
+    } catch (error) {
+      toast({
+        title: "Gagal",
+        description: (error as TRPCError).message,
+      });
+    }
+  };
+
+  const openEditModal = () => {
+    onOpenEditModal();
+    setValue("detail", detail);
+    setValue("googleMapsUrl", mapsUrl);
+    setValue("id", id);
+    setValue("label", label);
+    setValue("phoneNumber", phone);
+    setValue("recipientName", recipientName);
+  };
+
   return (
     <>
-      <AlertDialog
-        leastDestructiveRef={cancelRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Hapus Alamat?
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Apakah anda yakin? Data ini tidak bisa dikembalikan setelah kamu
-              hapus.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Batal
-              </Button>
-              <Button colorScheme="red" onClick={handleDeleteSubmit} ml={3}>
-                Hapus
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      <DeleteConfirmationDialog
+        handleDeleteSubmit={handleDeleteSubmit}
+        isOpen={deleteDialogIsOpen}
+        onClose={onCloseDeleteDialog}
+      />
+      <EditAddressModal
+        isOpen={editModalIsOpen}
+        onClose={onCloseEditModal}
+        isLoading={upsertAddressIsLoading}
+        handleSubmit={handleEditSubmit}
+      />
       <Card mt="4">
         <CardBody>
           <Text fontSize="xl" fontWeight="bold" mb="2">
             {label}
           </Text>
+          <Text>{recipientName}</Text>
           <Text>{phone}</Text>
-          <Text mb="2">
-            {detail}, {city}, {province}, {postalCode}
-          </Text>
+          <Text mb="2">{detail}</Text>
           <Link
             fontSize="sm"
             fontWeight="bold"
@@ -113,11 +134,11 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
           </Link>
 
           <HStack mt="4" justifyContent="end" alignItems="center">
-            <Button variant="link" size="xs">
+            <Button onClick={openEditModal} variant="link" size="xs">
               Ubah alamat
             </Button>
             <Box boxSize={1.5} bgColor="slategray" borderRadius="50%" />
-            <Button onClick={onOpen} variant="link" size="xs">
+            <Button onClick={onOpenDeleteDialog} variant="link" size="xs">
               Hapus
             </Button>
           </HStack>

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   Button,
   FormControl,
@@ -12,18 +11,9 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Select as ReactSelect } from "chakra-react-select";
-import { useForm } from "react-hook-form";
-import { useDebounce } from "use-debounce";
+import { useFormContext } from "react-hook-form";
 
-import { api } from "~/utils/api";
-import {
-  AddressForm,
-  createAddressFormSchema,
-} from "../schemas/createAddressSchema";
-
-const resolver = zodResolver(createAddressFormSchema);
+import { AddressForm } from "../forms/create-address";
 
 interface CreateAddressFormProps {
   onSubmit: (values: AddressForm) => void;
@@ -34,49 +24,27 @@ export const CreateAddressForm: React.FC<CreateAddressFormProps> = ({
   onSubmit,
   isLoading,
 }) => {
-  const [debouncedCitySelect, setDebouncedCitySelect] = useDebounce("", 1000);
   const {
+    handleSubmit,
     register,
     formState: { errors },
-    handleSubmit,
-    setValue,
     watch,
-  } = useForm<AddressForm>({
-    resolver,
-    defaultValues: {
-      cityId: "",
-      detail: "",
-      label: "",
-      phoneNumber: "",
-      recipientName: "",
-    },
-  });
-
-  const {
-    data: cities,
-    refetch: refetchCities,
-    isFetching,
-  } = api.address.getCities.useQuery(
-    {
-      cityName: debouncedCitySelect,
-    },
-    { enabled: false },
-  );
-
-  const handleCitySelectChange = (value: string) => {
-    setValue("cityName", value);
-    setDebouncedCitySelect(value);
-  };
-
-  useEffect(() => {
-    if (debouncedCitySelect) {
-      void refetchCities();
-    }
-  }, [debouncedCitySelect, refetchCities]);
+    reset,
+  } = useFormContext<AddressForm>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit((values) => {
+        onSubmit(values);
+        reset();
+      })}
+    >
       <Stack>
+        <FormControl isInvalid={!!errors.label}>
+          <FormLabel>Label</FormLabel>
+          <Input {...register("label")} />
+          <FormErrorMessage></FormErrorMessage>
+        </FormControl>
         <FormControl isInvalid={!!errors.recipientName}>
           <FormLabel>Nama Penerima</FormLabel>
           <Input {...register("recipientName")} />
@@ -90,23 +58,7 @@ export const CreateAddressForm: React.FC<CreateAddressFormProps> = ({
           </InputGroup>
           <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={!!errors.label}>
-          <FormLabel>Label</FormLabel>
-          <Input {...register("label")} />
-          <FormErrorMessage></FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={!!errors.cityId}>
-          <FormLabel>Kota/Kabupaten</FormLabel>
-          <ReactSelect
-            isLoading={isFetching}
-            options={cities}
-            getOptionLabel={(option) => option.cityName}
-            getOptionValue={(option) => option.id}
-            onInputChange={(value) => handleCitySelectChange(value)}
-            onChange={(value) => setValue("cityId", value?.id as string)}
-          />
-          <FormErrorMessage>{errors.cityId?.message}</FormErrorMessage>
-        </FormControl>
+
         <FormControl isInvalid={!!errors.detail}>
           <FormLabel>Alamat lengkap</FormLabel>
           <Textarea {...register("detail")} resize="none" />
