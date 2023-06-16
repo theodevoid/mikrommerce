@@ -11,8 +11,11 @@ import {
 
 import { api } from "~/utils/api";
 import { CartItem } from "~/features/cart";
+import { useClientProtectedPage } from "~/hooks/useClientProtectedPage";
 
 const Cart = () => {
+  useClientProtectedPage();
+
   // TODO: Add loading skeletons
   const { data: cart } = api.cart.getCart.useQuery();
 
