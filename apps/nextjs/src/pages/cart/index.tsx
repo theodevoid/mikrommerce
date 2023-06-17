@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 import { api } from "~/utils/api";
-import { CartItem } from "~/features/cart";
+import { BottomSection, CartItem } from "~/features/cart";
 import { useClientProtectedPage } from "~/hooks/useClientProtectedPage";
 
 const Cart = () => {
@@ -18,6 +18,20 @@ const Cart = () => {
 
   // TODO: Add loading skeletons
   const { data: cart } = api.cart.getCart.useQuery();
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+
+    if (cart?.length) {
+      cart.forEach((item) => {
+        totalPrice +=
+          parseInt(item.quantity.toString()) *
+          parseInt(item.item.price.toString());
+      });
+    }
+
+    return totalPrice;
+  };
 
   const renderCart = () => {
     if (!cart?.length) {
@@ -54,11 +68,12 @@ const Cart = () => {
   };
 
   return (
-    <Container>
+    <Container position="relative" h="calc(100vh - 64px)">
       <Heading size="lg" mb="8">
         Keranjang belanja
       </Heading>
       <Stack spacing={8}>{renderCart()}</Stack>
+      <BottomSection totalPrice={calculateTotalPrice()} />
     </Container>
   );
 };

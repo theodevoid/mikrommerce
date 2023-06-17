@@ -17,6 +17,7 @@ model User {
     image   String?
     Cart    Cart[]
     Address Address[]
+    Order   Order[]
 }
 
 model Product {
@@ -44,6 +45,7 @@ model ProductVariant {
     Cart      Cart[]
     productId String
     Inventory Inventory[]
+    OrderItem OrderItem[]
 }
 
 enum InventoryStatus {
@@ -96,4 +98,55 @@ model Address {
     googleMapsUrl String
     phoneNumber   String
     recipientName String
+}
+
+enum OrderStatus {
+    WAITING_FOR_SELLER
+    WAITING_FOR_PAYMENT
+    ON_PROCESS
+    ON_DELIVERY
+    DONE
+    CANCELLED
+}
+
+enum PaymentMethod {
+    CASH
+    BANK_TRANSFER
+}
+
+enum PaymentStatus {
+    PENDING
+    REJECTED
+    SUCCESS
+}
+
+model Order {
+    id               String        @id @default(cuid())
+    user             User          @relation(fields: [userId], references: [id])
+    userId           String
+    invoiceNumber    String
+    subTotal         Int
+    grandTotal       Int
+    platformFee      Int
+    shipmentFee      Int
+    recepientName    String
+    recepientPhone   String
+    recepientAddress String
+    status           OrderStatus
+    paymentStatus    PaymentStatus
+    paymentMethod    PaymentMethod
+    paidAt           DateTime
+    createdAt        DateTime      @default(now())
+    OrderItem        OrderItem[]
+}
+
+model OrderItem {
+    id               String         @id @default(cuid())
+    order            Order          @relation(fields: [orderId], references: [id])
+    orderId          String
+    productVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
+    productVariantId String
+    quantity         Int
+    price            Int
+    createdAt        DateTime
 }

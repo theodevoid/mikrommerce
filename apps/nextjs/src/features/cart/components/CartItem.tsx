@@ -15,7 +15,6 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { HiMinus, HiPlus } from "react-icons/hi";
 import { IoTrashOutline } from "react-icons/io5";
 import { useDebounce } from "use-debounce";
@@ -56,8 +55,7 @@ export const CartItem: React.FC<CardItemProps> = ({
   const [debouncedQuantity] = useDebounce(currentQuantity, 1000);
 
   const toast = useToast();
-  const queryClient = useQueryClient();
-  const apiUtils = api.useContext();
+  const apiContext = api.useContext();
 
   const { data: cartItem, mutate: updateCart } =
     api.cart.updateCart.useMutation({
@@ -67,6 +65,9 @@ export const CartItem: React.FC<CardItemProps> = ({
           title: "Gagal menambahkan ke keranjang",
           description: serializeAddToCartError(error.message),
         });
+      },
+      onSuccess: async () => {
+        await apiContext.cart.getCart.invalidate();
       },
     });
   const { mutate: deleteCart } = api.cart.deleteCart.useMutation({
@@ -82,9 +83,7 @@ export const CartItem: React.FC<CardItemProps> = ({
         status: "success",
         title: "Berhasil menghapus barang dari keranjang",
       });
-      await queryClient.invalidateQueries({
-        queryKey: [apiUtils.cart.invalidate()],
-      });
+      await apiContext.cart.getCart.invalidate();
     },
   });
 
